@@ -9,10 +9,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.example.annotaitionsdemo.R.layout;
 import org.androidannotations.api.builder.ActivityIntentBuilder;
 import org.androidannotations.api.view.HasViews;
@@ -67,7 +71,20 @@ public final class MainActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
+        tv_ann = ((TextView) hasViews.findViewById(com.example.annotaitionsdemo.R.id.tv_ann));
         lv_ann = ((ListView) hasViews.findViewById(com.example.annotaitionsdemo.R.id.lv_ann));
+        if (tv_ann!= null) {
+            tv_ann.setOnClickListener(new OnClickListener() {
+
+
+                @Override
+                public void onClick(View view) {
+                    MainActivity_.this.tvOnclick();
+                }
+
+            }
+            );
+        }
         if (lv_ann!= null) {
             lv_ann.setOnItemClickListener(new OnItemClickListener() {
 
@@ -75,6 +92,32 @@ public final class MainActivity_
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     MainActivity_.this.myListItemClicked(position);
+                }
+
+            }
+            );
+            lv_ann.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    MainActivity_.this.myListItemSelectClicked(false, -1);
+                }
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    MainActivity_.this.myListItemSelectClicked(true, position);
+                }
+
+            }
+            );
+            lv_ann.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    MainActivity_.this.myListItemLongClicked(position);
+                    return true;
                 }
 
             }
